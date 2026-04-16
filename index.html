@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ATAF End-of-Course Participant Satisfaction Survey</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:#f5f6fa;color:#1a1a2e;font-size:15px;line-height:1.6}
+.page-wrap{max-width:800px;margin:0 auto;padding:2rem 1.5rem 4rem}
+.form-header{background:#1F4E79;color:#fff;padding:2rem 2rem 1.5rem;border-radius:10px;margin-bottom:2rem}
+.form-header h1{font-size:20px;font-weight:600;margin-bottom:8px}
+.form-header p{font-size:13px;opacity:.9;line-height:1.6}
+.scale-badge{display:inline-block;background:rgba(255,255,255,.15);border-radius:6px;padding:6px 12px;font-size:12px;margin-top:10px}
+.section-card{background:#fff;border-radius:10px;border:1px solid #e2e6ea;padding:1.5rem;margin-bottom:1.5rem}
+.section-title{font-size:13px;font-weight:600;color:#1F4E79;text-transform:uppercase;letter-spacing:.06em;margin-bottom:1.25rem;padding-bottom:8px;border-bottom:2px solid #e8f0f8}
+.field{margin-bottom:1.25rem}
+.field label{display:block;font-size:14px;font-weight:600;margin-bottom:5px;color:#1a1a2e}
+.field .hint{font-size:12px;color:#6c757d;margin-bottom:6px;font-style:italic}
+.field input[type=text],.field textarea,.field select{width:100%;padding:9px 12px;border:1px solid #ced4da;border-radius:6px;font-size:14px;background:#fff;color:#1a1a2e;font-family:Arial,sans-serif;transition:border-color .15s}
+.field input[type=text]:focus,.field textarea:focus{outline:none;border-color:#1F4E79;box-shadow:0 0 0 3px rgba(31,78,121,.1)}
+.field textarea{resize:vertical;min-height:80px}
+.radio-group{display:flex;gap:8px;flex-wrap:wrap}
+.radio-btn{padding:7px 18px;border:1.5px solid #ced4da;border-radius:20px;font-size:13px;cursor:pointer;background:#fff;color:#495057;transition:all .15s;font-family:Arial,sans-serif}
+.radio-btn:hover{border-color:#1F4E79;color:#1F4E79}
+.radio-btn.active{background:#1F4E79;border-color:#1F4E79;color:#fff;font-weight:600}
+.grid-wrap{overflow-x:auto}
+.grid-table{width:100%;border-collapse:collapse;font-size:13px;min-width:500px}
+.grid-table th{font-weight:600;color:#6c757d;text-align:center;padding:6px 8px;font-size:12px;background:#f8f9fa}
+.grid-table th:first-child{text-align:left;min-width:280px}
+.grid-table td{padding:10px 8px;border-top:1px solid #f0f0f0;vertical-align:middle}
+.grid-table tr:hover td{background:#fafbff}
+.grid-table td:not(:first-child){text-align:center}
+.grid-table input[type=radio]{width:17px;height:17px;cursor:pointer;accent-color:#1F4E79}
+.scale-note{font-size:11px;color:#6c757d;margin-bottom:8px;font-style:italic}
+
+/* Facilitator tabs */
+.fac-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1.25rem;align-items:center}
+.fac-tab{padding:8px 18px;border:1.5px solid #ced4da;border-radius:20px;font-size:13px;cursor:pointer;background:#fff;color:#495057;transition:all .15s;position:relative;font-family:Arial,sans-serif}
+.fac-tab:hover{border-color:#1F4E79;color:#1F4E79}
+.fac-tab.active{background:#1F4E79;border-color:#1F4E79;color:#fff;font-weight:600}
+.fac-tab .rm{display:none;position:absolute;top:-6px;right:-6px;width:18px;height:18px;background:#dc3545;border-radius:50%;font-size:11px;color:#fff;align-items:center;justify-content:center;cursor:pointer;border:none;font-family:Arial,sans-serif;line-height:1}
+.fac-tab:hover .rm{display:flex}
+.add-fac-btn{padding:8px 16px;border:1.5px dashed #adb5bd;border-radius:20px;font-size:13px;cursor:pointer;background:transparent;color:#6c757d;transition:all .15s;display:flex;align-items:center;gap:5px;font-family:Arial,sans-serif}
+.add-fac-btn:hover{border-color:#1F4E79;color:#1F4E79;background:#f0f5fb}
+.fac-panel{display:none}
+.fac-panel.active{display:block}
+.fac-name-row{display:flex;align-items:center;gap:10px;margin-bottom:1.25rem;background:#f8f9fa;padding:10px 14px;border-radius:8px}
+.fac-name-row label{font-size:13px;font-weight:600;min-width:130px;color:#1F4E79}
+.fac-name-row input{flex:1;padding:7px 10px;border:1px solid #ced4da;border-radius:6px;font-size:14px}
+
+/* Overall rating */
+.overall-opts{display:flex;gap:8px;flex-wrap:wrap}
+.overall-opts .radio-btn{padding:9px 20px;font-size:14px}
+
+/* Submit */
+.submit-area{margin-top:2rem;text-align:center}
+.submit-btn{padding:12px 40px;background:#1F4E79;border:none;border-radius:8px;color:#fff;font-size:15px;font-weight:600;cursor:pointer;font-family:Arial,sans-serif;transition:background .15s}
+.submit-btn:hover{background:#163d61}
+.submit-btn:disabled{background:#adb5bd;cursor:not-allowed}
+.msg{margin-top:12px;font-size:14px;min-height:20px}
+.msg.error{color:#dc3545}
+.msg.success{color:#198754;font-weight:600}
+
+/* Thank you screen */
+.thankyou{display:none;text-align:center;padding:3rem 2rem;background:#fff;border-radius:10px;border:1px solid #e2e6ea}
+.thankyou .check{width:60px;height:60px;background:#d4edda;border-radius:50%;margin:0 auto 1.5rem;display:flex;align-items:center;justify-content:center;font-size:28px}
+.thankyou h2{color:#1F4E79;font-size:22px;margin-bottom:8px}
+.thankyou p{color:#6c757d;font-size:14px}
+
+.req{color:#dc3545}
+</style>
+</head>
+<body>
+<div class="page-wrap">
+
+  <div class="form-header">
+    <h1>ATAF End-of-Course Participant Satisfaction Survey</h1>
+    <p>Thank you for completing this survey. Your feedback helps ATAF improve the quality of its training programmes. Your responses are anonymous.</p>
+    <div class="scale-badge">Rating scale &nbsp;·&nbsp; 1 = Very Dissatisfied &nbsp;|&nbsp; 2 = Dissatisfied &nbsp;|&nbsp; 3 = Neutral &nbsp;|&nbsp; 4 = Satisfied &nbsp;|&nbsp; 5 = Very Satisfied</div>
+  </div>
+
+  <div id="formBody">
+
+    <!-- S1: TRAINING INFORMATION -->
+    <div class="section-card">
+      <div class="section-title">Section 1 — Training information</div>
+      <div class="field">
+        <label>Country / Revenue Administration <span class="req">*</span></label>
+        <input type="text" id="country" placeholder="e.g. Kenya Revenue Authority">
+      </div>
+      <div class="field">
+        <label>Course Title <span class="req">*</span></label>
+        <div class="hint">&#9888; Please type the exact course name as communicated. Correct spelling ensures consistent data.</div>
+        <input type="text" id="courseTitle" placeholder="Type the full course name exactly as communicated">
+      </div>
+      <div class="field">
+        <label>Training Delivery Mode <span class="req">*</span></label>
+        <div class="radio-group" id="deliveryMode">
+          <button class="radio-btn" onclick="pick(this,'deliveryMode')">In-person</button>
+          <button class="radio-btn" onclick="pick(this,'deliveryMode')">Virtual</button>
+          <button class="radio-btn" onclick="pick(this,'deliveryMode')">Blended</button>
+        </div>
+      </div>
+      <div class="field">
+        <label>Did this training include translation or interpretation support? <span class="req">*</span></label>
+        <div class="radio-group" id="translationQ">
+          <button class="radio-btn" onclick="pick(this,'translationQ');toggleTranslation(this)">Yes</button>
+          <button class="radio-btn" onclick="pick(this,'translationQ');toggleTranslation(this)">No</button>
+        </div>
+      </div>
+      <!-- INLINE TRANSLATION QUESTIONS — appear immediately after Yes is selected -->
+      <div id="translationSection" style="display:none;margin-top:1rem;padding:1rem;background:#f0f5fb;border-left:4px solid #1F4E79;border-radius:0 8px 8px 0">
+        <div style="font-size:13px;font-weight:600;color:#1F4E79;margin-bottom:10px">Language support questions</div>
+        <div class="scale-note">1 = Very Dissatisfied &nbsp;|&nbsp; 2 = Dissatisfied &nbsp;|&nbsp; 3 = Neutral &nbsp;|&nbsp; 4 = Satisfied &nbsp;|&nbsp; 5 = Very Satisfied</div>
+        <div class="grid-wrap"><table class="grid-table">
+          <thead><tr><th>Statement</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr></thead>
+          <tbody id="g-translation"></tbody>
+        </table></div>
+      </div>
+    </div>
+
+    <!-- S2: CONTENT -->
+    <div class="section-card">
+      <div class="section-title">Section 2 — Course content &amp; structure</div>
+      <div class="scale-note">1 = Very Dissatisfied &nbsp;|&nbsp; 2 = Dissatisfied &nbsp;|&nbsp; 3 = Neutral &nbsp;|&nbsp; 4 = Satisfied &nbsp;|&nbsp; 5 = Very Satisfied</div>
+      <div class="grid-wrap"><table class="grid-table">
+        <thead><tr><th>Statement</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr></thead>
+        <tbody id="g-content"></tbody>
+      </table></div>
+    </div>
+
+    <!-- S3: DELIVERY -->
+    <div class="section-card">
+      <div class="section-title">Section 3 — Course delivery</div>
+      <div class="scale-note">1 = Very Dissatisfied &nbsp;|&nbsp; 2 = Dissatisfied &nbsp;|&nbsp; 3 = Neutral &nbsp;|&nbsp; 4 = Satisfied &nbsp;|&nbsp; 5 = Very Satisfied</div>
+      <div class="grid-wrap"><table class="grid-table">
+        <thead><tr><th>Statement</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr></thead>
+        <tbody id="g-delivery"></tbody>
+      </table></div>
+    </div>
+
+    <!-- S4: FACILITATORS -->
+    <div class="section-card">
+      <div class="section-title">Section 4 — Facilitator evaluations</div>
+      <p style="font-size:13px;color:#6c757d;margin-bottom:1rem">Click a facilitator tab to evaluate them. Use <strong>+ Add facilitator</strong> to add more (up to 6). Each facilitator is evaluated separately.</p>
+      <div class="fac-tabs" id="facTabs"></div>
+      <div id="facPanels"></div>
+    </div>
+
+    <!-- S5: KNOWLEDGE -->
+    <div class="section-card">
+      <div class="section-title">Section 5 — Knowledge &amp; skills acquisition</div>
+      <div class="scale-note">1 = Very Dissatisfied &nbsp;|&nbsp; 2 = Dissatisfied &nbsp;|&nbsp; 3 = Neutral &nbsp;|&nbsp; 4 = Satisfied &nbsp;|&nbsp; 5 = Very Satisfied</div>
+      <div class="grid-wrap"><table class="grid-table">
+        <thead><tr><th>Statement</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr></thead>
+        <tbody id="g-knowledge"></tbody>
+      </table></div>
+    </div>
+
+    <!-- S6: MATERIALS -->
+    <div class="section-card">
+      <div class="section-title">Section 6 — Training materials</div>
+      <div class="scale-note">1 = Very Dissatisfied &nbsp;|&nbsp; 2 = Dissatisfied &nbsp;|&nbsp; 3 = Neutral &nbsp;|&nbsp; 4 = Satisfied &nbsp;|&nbsp; 5 = Very Satisfied</div>
+      <div class="grid-wrap"><table class="grid-table">
+        <thead><tr><th>Statement</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr></thead>
+        <tbody id="g-materials"></tbody>
+      </table></div>
+    </div>
+
+    <!-- S8: IMPACT -->
+    <div class="section-card">
+      <div class="section-title">Section 8 — Impact &amp; application</div>
+      <div class="scale-note">1 = Very Dissatisfied &nbsp;|&nbsp; 2 = Dissatisfied &nbsp;|&nbsp; 3 = Neutral &nbsp;|&nbsp; 4 = Satisfied &nbsp;|&nbsp; 5 = Very Satisfied</div>
+      <div class="grid-wrap"><table class="grid-table">
+        <thead><tr><th>Statement</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr></thead>
+        <tbody id="g-impact"></tbody>
+      </table></div>
+      <div class="field" style="margin-top:1rem">
+        <label>Are there topics or skills gaps you would like ATAF to address in future programmes?</label>
+        <textarea id="skillsGap" placeholder="Your response..."></textarea>
+      </div>
+    </div>
+
+    <!-- S9: OPEN FEEDBACK -->
+    <div class="section-card">
+      <div class="section-title">Section 9 — Open feedback</div>
+      <div class="field">
+        <label>What did you find most valuable about this training? <span class="req">*</span></label>
+        <textarea id="openValuable" placeholder="Your response..."></textarea>
+      </div>
+      <div class="field">
+        <label>What aspects of the training need improvement? <span class="req">*</span></label>
+        <textarea id="openImprove" placeholder="Your response..."></textarea>
+      </div>
+      <div class="field">
+        <label>Any additional comments or suggestions for ATAF?</label>
+        <textarea id="openComments" placeholder="Your response..."></textarea>
+      </div>
+    </div>
+
+    <!-- S10: OVERALL -->
+    <div class="section-card">
+      <div class="section-title">Section 10 — Overall rating</div>
+      <div class="field">
+        <label>Overall, how would you rate this training? <span class="req">*</span></label>
+        <div class="overall-opts" id="overallRating">
+          <button class="radio-btn" onclick="pick(this,'overallRating')">Excellent</button>
+          <button class="radio-btn" onclick="pick(this,'overallRating')">Very Good</button>
+          <button class="radio-btn" onclick="pick(this,'overallRating')">Good</button>
+          <button class="radio-btn" onclick="pick(this,'overallRating')">Fair</button>
+          <button class="radio-btn" onclick="pick(this,'overallRating')">Poor</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="submit-area">
+      <button class="submit-btn" id="submitBtn" onclick="submitForm()">Submit Survey</button>
+      <div class="msg" id="formMsg"></div>
+    </div>
+
+  </div><!-- /formBody -->
+
+  <!-- THANK YOU -->
+  <div class="thankyou" id="thankYou">
+    <div class="check">&#10003;</div>
+    <h2>Thank you for your feedback!</h2>
+    <p>Your response has been recorded. ATAF values your input and will use it to continuously improve its training programmes.</p>
+  </div>
+
+</div>
+
+<script src="scorm_api.js"></script>
+<script>
+
+// ── GOOGLE SHEETS ENDPOINT ─────────────────────────────────────────────────
+// Paste your Apps Script Web App URL here after deploying
+var SHEETS_URL = 'https://script.google.com/macros/s/AKfycby3PSg4APKppXyX4Fpzjj26J6FXMWgN2-xzSP14hMsAmbJ5K6AXcbwC7uBTAnuMDvFmtQ/exec';
+
+// ── GRID DATA ──────────────────────────────────────────────────────────────
+var grids = {
+  content: [
+    'The course content met my learning expectations',
+    'The training objectives were clearly communicated and relevant to my work',
+    'The course was well organised and logically structured',
+    'The duration of the course was appropriate for the content covered'
+  ],
+  delivery: [
+    'The delivery methods (lectures, discussions, case studies) were effective',
+    'The pace of delivery was appropriate for the level of the content',
+    'The sessions were interactive and encouraged active participation',
+    'The learning environment or platform was conducive to effective learning'
+  ],
+  knowledge: [
+    'I gained new knowledge that I did not have before this training',
+    'My understanding of the subject matter has meaningfully improved',
+    'I acquired practical skills I can apply directly in my work',
+    'This training has increased my confidence in performing related tasks'
+  ],
+  materials: [
+    'The training materials were relevant to the course content',
+    'The materials were clear and easy to understand',
+    'The materials will be a useful reference after the training'
+  ],
+  translation: [
+    'The quality of interpretation supported my understanding',
+    'The translated materials were accurate and readable'
+  ],
+  impact: [
+    'I will be able to apply the knowledge and skills gained in my work',
+    'This training is directly relevant to my current job responsibilities'
+  ]
+};
+
+var facQuestions = [
+  'Demonstrated strong knowledge of the subject matter',
+  'Explained complex concepts clearly and effectively',
+  'Responded adequately to participants\' questions',
+  'Used relevant examples and practical activities',
+  'Encouraged participation and discussion',
+  'Was articulate and clear in the language of instruction'
+];
+
+// ── BUILD RATING GRIDS ─────────────────────────────────────────────────────
+function buildGrid(tbodyId, rows, prefix) {
+  var tb = document.getElementById(tbodyId);
+  rows.forEach(function(row, i) {
+    var tr = document.createElement('tr');
+    var html = '<td>' + row + '</td>';
+    for (var v = 1; v <= 5; v++) {
+      html += '<td><input type="radio" name="' + prefix + '_' + i + '" value="' + v + '"></td>';
+    }
+    tr.innerHTML = html;
+    tb.appendChild(tr);
+  });
+}
+
+// ── RADIO BUTTON SELECTION ─────────────────────────────────────────────────
+function pick(btn, groupId) {
+  document.querySelectorAll('#' + groupId + ' .radio-btn').forEach(function(b) {
+    b.classList.remove('active');
+  });
+  btn.classList.add('active');
+}
+
+function toggleTranslation(btn) {
+  var show = btn.textContent.trim() === 'Yes';
+  document.getElementById('translationSection').style.display = show ? 'block' : 'none';
+}
+
+// ── FACILITATOR LOGIC ──────────────────────────────────────────────────────
+var facCount = 0;
+var activeFac = null;
+var MAX_FAC = 6;
+
+function addFacilitator() {
+  if (facCount >= MAX_FAC) return;
+  facCount++;
+  var id = 'fac' + facCount;
+  var label = 'Facilitator ' + facCount;
+
+  var tabs = document.getElementById('facTabs');
+  var addBtn = document.getElementById('addFacBtn');
+
+  var tab = document.createElement('button');
+  tab.className = 'fac-tab';
+  tab.id = 'tab_' + id;
+  tab.setAttribute('data-id', id);
+  tab.innerHTML = label + '<button class="rm" title="Remove" onclick="removeFac(event,\'' + id + '\')">&#x2715;</button>';
+  tab.onclick = function(e) { if (e.target.classList.contains('rm')) return; switchFac(id); };
+  tabs.insertBefore(tab, addBtn);
+
+  var panel = document.createElement('div');
+  panel.className = 'fac-panel';
+  panel.id = 'panel_' + id;
+  panel.innerHTML =
+    '<div class="fac-name-row">' +
+      '<label>' + label + ' name</label>' +
+      '<input type="text" id="name_' + id + '" placeholder="Enter full name of ' + label + '">' +
+    '</div>' +
+    '<div class="scale-note">1 = Very Dissatisfied &nbsp;|&nbsp; 2 = Dissatisfied &nbsp;|&nbsp; 3 = Neutral &nbsp;|&nbsp; 4 = Satisfied &nbsp;|&nbsp; 5 = Very Satisfied</div>' +
+    '<div class="grid-wrap"><table class="grid-table" style="margin-bottom:1rem">' +
+      '<thead><tr><th>Statement</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr></thead>' +
+      '<tbody id="grid_' + id + '"></tbody>' +
+    '</table></div>' +
+    '<div class="field"><label>What did you appreciate most about this facilitator\'s approach?</label>' +
+      '<textarea id="like_' + id + '" placeholder="Your response..."></textarea></div>' +
+    '<div class="field"><label>What improvement would you suggest for this facilitator?</label>' +
+      '<textarea id="imp_' + id + '" placeholder="Your response..."></textarea></div>';
+
+  document.getElementById('facPanels').appendChild(panel);
+  buildGrid('grid_' + id, facQuestions, id);
+  switchFac(id);
+
+  if (facCount >= MAX_FAC) addBtn.style.display = 'none';
+}
+
+function switchFac(id) {
+  activeFac = id;
+  document.querySelectorAll('.fac-tab').forEach(function(t) { t.classList.remove('active'); });
+  document.querySelectorAll('.fac-panel').forEach(function(p) { p.classList.remove('active'); });
+  var t = document.getElementById('tab_' + id);
+  var p = document.getElementById('panel_' + id);
+  if (t) t.classList.add('active');
+  if (p) p.classList.add('active');
+}
+
+function removeFac(e, id) {
+  e.stopPropagation();
+  document.getElementById('tab_' + id).remove();
+  document.getElementById('panel_' + id).remove();
+  document.getElementById('addFacBtn').style.display = 'flex';
+  var remaining = document.querySelectorAll('.fac-tab[data-id]');
+  activeFac = remaining.length > 0 ? remaining[remaining.length - 1].getAttribute('data-id') : null;
+  if (activeFac) switchFac(activeFac);
+}
+
+// ── COLLECT FORM DATA ──────────────────────────────────────────────────────
+function getGridValues(prefix, count) {
+  var vals = [];
+  for (var i = 0; i < count; i++) {
+    var sel = document.querySelector('input[name="' + prefix + '_' + i + '"]:checked');
+    vals.push(sel ? sel.value : '');
+  }
+  return vals;
+}
+
+function getSelected(groupId) {
+  var el = document.querySelector('#' + groupId + ' .active');
+  return el ? el.textContent.trim() : '';
+}
+
+function collectData() {
+  var data = {
+    timestamp: new Date().toISOString(),
+    country: document.getElementById('country').value.trim(),
+    courseTitle: document.getElementById('courseTitle').value.trim(),
+    deliveryMode: getSelected('deliveryMode'),
+    translationSupport: getSelected('translationQ'),
+    content: getGridValues('sec2', 4),
+    delivery: getGridValues('sec3', 4),
+    knowledge: getGridValues('sec5', 4),
+    materials: getGridValues('sec6', 3),
+    translation: getGridValues('sec7', 2),
+    impact: getGridValues('sec8', 2),
+    skillsGap: document.getElementById('skillsGap').value.trim(),
+    openValuable: document.getElementById('openValuable').value.trim(),
+    openImprove: document.getElementById('openImprove').value.trim(),
+    openComments: document.getElementById('openComments').value.trim(),
+    overallRating: getSelected('overallRating'),
+    facilitators: []
+  };
+
+  document.querySelectorAll('.fac-tab[data-id]').forEach(function(tab) {
+    var id = tab.getAttribute('data-id');
+    var num = parseInt(id.replace('fac', ''));
+    data.facilitators.push({
+      number: num,
+      name: (document.getElementById('name_' + id) || {}).value || '',
+      ratings: getGridValues(id, 6),
+      liked: (document.getElementById('like_' + id) || {}).value || '',
+      improve: (document.getElementById('imp_' + id) || {}).value || ''
+    });
+  });
+
+  return data;
+}
+
+// ── VALIDATION ─────────────────────────────────────────────────────────────
+function validate() {
+  if (!document.getElementById('country').value.trim()) return 'Please fill in Country / Revenue Administration.';
+  if (!document.getElementById('courseTitle').value.trim()) return 'Please fill in the Course Title.';
+  if (!getSelected('deliveryMode')) return 'Please select a Training Delivery Mode.';
+  if (!getSelected('translationQ')) return 'Please answer the translation/interpretation question.';
+  if (!document.getElementById('openValuable').value.trim()) return 'Please answer: What did you find most valuable?';
+  if (!document.getElementById('openImprove').value.trim()) return 'Please answer: What aspects need improvement?';
+  if (!getSelected('overallRating')) return 'Please select an Overall Rating.';
+  return null;
+}
+
+// ── SUBMIT ─────────────────────────────────────────────────────────────────
+function submitForm() {
+  var msg = document.getElementById('formMsg');
+  var err = validate();
+  if (err) {
+    msg.className = 'msg error';
+    msg.textContent = err;
+    return;
+  }
+
+  msg.className = 'msg';
+  msg.textContent = 'Submitting...';
+  document.getElementById('submitBtn').disabled = true;
+
+  var data = collectData();
+
+  // Mark SCORM complete
+  if (window.SCORM) {
+    try {
+      SCORM.set('cmi.core.lesson_status', 'completed');
+      SCORM.set('cmi.core.score.raw', '100');
+      SCORM.commit();
+    } catch(e) {}
+  }
+
+  // Send to Google Sheets
+  if (SHEETS_URL && SHEETS_URL !== '') {
+    fetch(SHEETS_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    }).then(function() {
+      showThankYou();
+    }).catch(function() {
+      showThankYou(); // Still show thank you — data may have gone through (no-cors)
+    });
+  } else {
+    showThankYou();
+  }
+}
+
+function showThankYou() {
+  document.getElementById('formBody').style.display = 'none';
+  document.getElementById('thankYou').style.display = 'block';
+  window.scrollTo(0, 0);
+}
+
+// ── INIT ───────────────────────────────────────────────────────────────────
+buildGrid('g-content', grids.content, 'sec2');
+buildGrid('g-delivery', grids.delivery, 'sec3');
+buildGrid('g-knowledge', grids.knowledge, 'sec5');
+buildGrid('g-materials', grids.materials, 'sec6');
+buildGrid('g-translation', grids.translation, 'sec7');
+buildGrid('g-impact', grids.impact, 'sec8');
+
+var addBtnEl = document.createElement('button');
+addBtnEl.className = 'add-fac-btn';
+addBtnEl.id = 'addFacBtn';
+addBtnEl.innerHTML = '+ Add facilitator';
+addBtnEl.onclick = addFacilitator;
+document.getElementById('facTabs').appendChild(addBtnEl);
+
+addFacilitator(); // Start with one facilitator by default
+
+</script>
+</body>
+</html>
