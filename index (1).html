@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ATAF End-of-Course Participant Satisfaction Survey</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:#f0f2f5;color:#1a1a1a;font-size:15px;line-height:1.6}
+
+/* ATAF brand colors */
+/* Green: #4A7C2F  Dark Green: #2D5016  Red/Orange: #C8401A  Dark navy: #1A2B4A */
+
+.shell{max-width:820px;margin:0 auto;padding:1.5rem 1rem 4rem}
+
+/* Header */
+.ataf-header{background:#2D5016;border-radius:10px 10px 0 0;padding:0;overflow:hidden;margin-bottom:0}
+.ataf-header-inner{display:flex;align-items:center;gap:1.5rem;padding:1.25rem 1.75rem}
+.ataf-logo{width:80px;height:80px;object-fit:contain;flex-shrink:0;background:#fff;border-radius:6px;padding:4px}
+.ataf-title-block h1{font-size:18px;font-weight:700;color:#fff;margin-bottom:4px}
+.ataf-title-block p{font-size:12px;color:rgba(255,255,255,0.8);line-height:1.5}
+.ataf-scale-bar{background:#4A7C2F;padding:8px 1.75rem;font-size:11px;color:rgba(255,255,255,0.9);border-top:1px solid rgba(255,255,255,0.15)}
+
+/* Progress */
+.progress-wrap{background:#fff;border-left:1px solid #dde3e8;border-right:1px solid #dde3e8;padding:1rem 1.75rem 0}
+.progress-steps{display:flex;gap:0;margin-bottom:0;overflow-x:auto;padding-bottom:0}
+.progress-step{flex:1;min-width:60px;text-align:center;padding:6px 4px 10px;font-size:10px;color:#9aab96;cursor:pointer;border-bottom:3px solid transparent;transition:all .2s;white-space:nowrap;position:relative}
+.progress-step.done{color:#4A7C2F;border-bottom-color:#4A7C2F}
+.progress-step.active{color:#2D5016;border-bottom-color:#C8401A;font-weight:700}
+.progress-step .step-num{display:block;width:22px;height:22px;border-radius:50%;background:#e8ede6;color:#9aab96;font-size:10px;font-weight:700;line-height:22px;margin:0 auto 3px}
+.progress-step.done .step-num{background:#4A7C2F;color:#fff}
+.progress-step.active .step-num{background:#C8401A;color:#fff}
+.progress-bar-track{height:4px;background:#e8ede6;margin:0 1.75rem}
+.progress-bar-fill{height:4px;background:linear-gradient(90deg,#4A7C2F,#C8401A);transition:width .4s ease;border-radius:0 2px 2px 0}
+
+/* Pages */
+.page{display:none}
+.page.active{display:block}
+
+/* Cards */
+.section-card{background:#fff;border-radius:0 0 10px 10px;border:1px solid #dde3e8;border-top:none;padding:1.75rem;margin-bottom:0}
+.section-card + .section-card{border-top:1px solid #f0f2f5;border-radius:0;margin-top:1px}
+.section-label{font-size:11px;font-weight:700;color:#4A7C2F;text-transform:uppercase;letter-spacing:.07em;margin-bottom:4px}
+.section-title{font-size:17px;font-weight:700;color:#2D5016;margin-bottom:1.25rem;padding-bottom:10px;border-bottom:2px solid #e8ede6}
+.scale-note{font-size:11px;color:#6c757d;margin-bottom:10px;font-style:italic;background:#f8faf7;padding:6px 10px;border-left:3px solid #4A7C2F;border-radius:0 4px 4px 0}
+
+/* Fields */
+.field{margin-bottom:1.25rem}
+.field label{display:block;font-size:14px;font-weight:600;margin-bottom:5px;color:#1a2b4a}
+.field .hint{font-size:12px;color:#6c757d;margin-bottom:6px;font-style:italic}
+.field input[type=text],.field textarea{width:100%;padding:9px 12px;border:1.5px solid #c8d5c0;border-radius:6px;font-size:14px;background:#fff;color:#1a1a1a;font-family:Arial,sans-serif;transition:border-color .15s}
+.field input[type=text]:focus,.field textarea:focus{outline:none;border-color:#4A7C2F;box-shadow:0 0 0 3px rgba(74,124,47,.1)}
+.field textarea{resize:vertical;min-height:80px}
+
+/* Radio buttons */
+.radio-group{display:flex;gap:8px;flex-wrap:wrap}
+.radio-btn{padding:7px 18px;border:1.5px solid #c8d5c0;border-radius:20px;font-size:13px;cursor:pointer;background:#fff;color:#2D5016;transition:all .15s;font-family:Arial,sans-serif}
+.radio-btn:hover{border-color:#4A7C2F;background:#f0f5eb}
+.radio-btn.active{background:#2D5016;border-color:#2D5016;color:#fff;font-weight:600}
+
+/* Grid tables */
+.grid-wrap{overflow-x:auto}
+.grid-table{width:100%;border-collapse:collapse;font-size:13px;min-width:480px}
+.grid-table th{font-weight:700;color:#fff;text-align:center;padding:8px;font-size:11px;background:#2D5016}
+.grid-table th:first-child{text-align:left;min-width:260px;padding-left:12px}
+.grid-table td{padding:10px 8px;border-top:1px solid #f0f2f5;vertical-align:middle}
+.grid-table tr:hover td{background:#f8faf7}
+.grid-table td:not(:first-child){text-align:center}
+.grid-table td:first-child{padding-left:12px;font-size:13px}
+.grid-table input[type=radio]{width:17px;height:17px;cursor:pointer;accent-color:#4A7C2F}
+
+/* Facilitator tabs */
+.fac-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1.25rem;align-items:center}
+.fac-tab{padding:8px 18px;border:1.5px solid #c8d5c0;border-radius:20px;font-size:13px;cursor:pointer;background:#fff;color:#2D5016;transition:all .15s;position:relative;font-family:Arial,sans-serif}
+.fac-tab:hover{border-color:#4A7C2F;background:#f0f5eb}
+.fac-tab.active{background:#2D5016;border-color:#2D5016;color:#fff;font-weight:600}
+.fac-tab .rm{display:none;position:absolute;top:-6px;right:-6px;width:18px;height:18px;background:#C8401A;border-radius:50%;font-size:11px;color:#fff;align-items:center;justify-content:center;cursor:pointer;border:none;font-family:Arial,sans-serif;line-height:1}
+.fac-tab:hover .rm{display:flex}
+.add-fac-btn{padding:8px 16px;border:1.5px dashed #c8d5c0;border-radius:20px;font-size:13px;cursor:pointer;background:transparent;color:#6c757d;transition:all .15s;display:flex;align-items:center;gap:5px;font-family:Arial,sans-serif}
+.add-fac-btn:hover{border-color:#4A7C2F;color:#2D5016;background:#f0f5eb}
+.fac-panel{display:none}
+.fac-panel.active{display:block}
+.fac-name-row{display:flex;align-items:center;gap:10px;margin-bottom:1.25rem;background:#f8faf7;padding:10px 14px;border-radius:8px;border:1px solid #e0eada}
+.fac-name-row label{font-size:13px;font-weight:600;min-width:130px;color:#2D5016}
+.fac-name-row input{flex:1;padding:7px 10px;border:1.5px solid #c8d5c0;border-radius:6px;font-size:14px;font-family:Arial,sans-serif}
+
+/* Inline translation block */
+.inline-section{display:none;margin-top:1rem;padding:1rem 1.25rem;background:#f8faf7;border-left:4px solid #4A7C2F;border-radius:0 8px 8px 0}
+.inline-section-title{font-size:13px;font-weight:700;color:#2D5016;margin-bottom:10px}
+
+/* Navigation */
+.nav-bar{background:#fff;border:1px solid #dde3e8;border-top:none;border-radius:0 0 10px 10px;padding:1rem 1.75rem;display:flex;justify-content:space-between;align-items:center;margin-top:1px}
+.nav-btn{padding:10px 28px;border-radius:6px;font-size:14px;font-weight:600;cursor:pointer;font-family:Arial,sans-serif;transition:all .15s;border:none}
+.nav-prev{background:#e8ede6;color:#2D5016}
+.nav-prev:hover{background:#d5e0d0}
+.nav-next{background:#C8401A;color:#fff}
+.nav-next:hover{background:#a8330f}
+.nav-submit{background:#2D5016;color:#fff}
+.nav-submit:hover{background:#1e3a0f}
+.page-indicator{font-size:12px;color:#6c757d}
+
+/* Overall rating */
+.overall-opts{display:flex;gap:8px;flex-wrap:wrap}
+.overall-opts .radio-btn{padding:9px 22px;font-size:14px}
+
+/* Error / success */
+.req{color:#C8401A}
+.msg{margin-top:10px;font-size:13px;min-height:18px}
+.msg.error{color:#C8401A;font-weight:600}
+.msg.success{color:#2D5016;font-weight:600}
+
+/* Thank you */
+.thankyou{display:none;text-align:center;padding:3rem 2rem;background:#fff;border-radius:10px;border:1px solid #dde3e8}
+.thankyou .check{width:64px;height:64px;background:#e8f5e0;border-radius:50%;margin:0 auto 1.5rem;display:flex;align-items:center;justify-content:center;font-size:30px;color:#2D5016}
+.thankyou h2{color:#2D5016;font-size:22px;margin-bottom:8px}
+.thankyou p{color:#6c757d;font-size:14px}
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <!-- HEADER -->
+  <div class="ataf-header">
+    <div class="ataf-header-inner">
+      <img class="ataf-logo" src="data:image/png;base64,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" alt="ATAF Logo">
+      <div class="ataf-title-block">
+        <h1>End-of-Course Participant Satisfaction Survey</h1>
+        <p>African Tax Administration Forum &nbsp;·&nbsp; Your feedback is anonymous and helps improve future training programmes.</p>
+      </div>
+    </div>
+    <div class="ataf-scale-bar">
+      Rating scale for all questions &nbsp;·&nbsp; <strong>1 = Very Dissatisfied &nbsp;|&nbsp; 2 = Dissatisfied &nbsp;|&nbsp; 3 = Neutral &nbsp;|&nbsp; 4 = Satisfied &nbsp;|&nbsp; 5 = Very Satisfied</strong>
+    </div>
+  </div>
+
+  <!-- PROGRESS BAR -->
+  <div class="progress-wrap">
+    <div class="progress-steps" id="progressSteps"></div>
+  </div>
+  <div class="progress-bar-track">
+    <div class="progress-bar-fill" id="progressFill" style="width:0%"></div>
+  </div>
+
+  <div id="formBody">
+
+    <!-- ═══════════════════════════════════════════════════ -->
+    <!-- PAGE 1: TRAINING INFORMATION                        -->
+    <!-- ═══════════════════════════════════════════════════ -->
+    <div class="page active" id="page1">
+      <div class="section-card">
+        <div class="section-label">Section 1 of 6</div>
+        <div class="section-title">Training Information</div>
+        <div class="field">
+          <label>Country / Revenue Administration <span class="req">*</span></label>
+          <input type="text" id="country" placeholder="e.g. Kenya Revenue Authority">
+        </div>
+        <div class="field">
+          <label>Course Title <span class="req">*</span></label>
+          <div class="hint">&#9888; Please type the exact course name as communicated. Correct spelling ensures consistent data.</div>
+          <input type="text" id="courseTitle" placeholder="Type the full course name exactly as communicated">
+        </div>
+        <div class="field">
+          <label>Training Delivery Mode <span class="req">*</span></label>
+          <div class="radio-group" id="deliveryMode">
+            <button class="radio-btn" onclick="pick(this,'deliveryMode')">In-person</button>
+            <button class="radio-btn" onclick="pick(this,'deliveryMode')">Virtual</button>
+            <button class="radio-btn" onclick="pick(this,'deliveryMode')">Blended</button>
+          </div>
+        </div>
+        <div class="field">
+          <label>Did this training include translation or interpretation support? <span class="req">*</span></label>
+          <div class="radio-group" id="translationQ">
+            <button class="radio-btn" onclick="pick(this,'translationQ');toggleTranslation(this)">Yes</button>
+            <button class="radio-btn" onclick="pick(this,'translationQ');toggleTranslation(this)">No</button>
+          </div>
+          <div class="inline-section" id="translationSection">
+            <div class="inline-section-title">Language support evaluation</div>
+            <div class="scale-note">1 = Very Dissatisfied &nbsp;|&nbsp; 2 = Dissatisfied &nbsp;|&nbsp; 3 = Neutral &nbsp;|&nbsp; 4 = Satisfied &nbsp;|&nbsp; 5 = Very Satisfied</div>
+            <div class="grid-wrap"><table class="grid-table">
+              <thead><tr><th>Statement</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr></thead>
+              <tbody id="g-translation"></tbody>
+            </table></div>
+          </div>
+        </div>
+      </div>
+      <div class="nav-bar">
+        <span class="page-indicator" id="pageInd1">Page 1 of 6</span>
+        <button class="nav-btn nav-next" onclick="goNext(1)">Next &rarr;</button>
+      </div>
+      <div class="msg" id="msg1"></div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════ -->
+    <!-- PAGE 2: COURSE EXPERIENCE                           -->
+    <!-- ═══════════════════════════════════════════════════ -->
+    <div class="page" id="page2">
+      <div class="section-card">
+        <div class="section-label">Section 2 of 6</div>
+        <div class="section-title">Course Content &amp; Delivery</div>
+        <div class="scale-note">1 = Very Dissatisfied &nbsp;|&nbsp; 2 = Dissatisfied &nbsp;|&nbsp; 3 = Neutral &nbsp;|&nbsp; 4 = Satisfied &nbsp;|&nbsp; 5 = Very Satisfied</div>
+        <p style="font-size:13px;font-weight:600;color:#2D5016;margin:1rem 0 6px">Content &amp; Structure</p>
+        <div class="grid-wrap"><table class="grid-table" style="margin-bottom:1.5rem">
+          <thead><tr><th>Statement</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr></thead>
+          <tbody id="g-content"></tbody>
+        </table></div>
+        <p style="font-size:13px;font-weight:600;color:#2D5016;margin:1rem 0 6px">Delivery &amp; Engagement</p>
+        <div class="grid-wrap"><table class="grid-table">
+          <thead><tr><th>Statement</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr></thead>
+          <tbody id="g-delivery"></tbody>
+        </table></div>
+      </div>
+      <div class="nav-bar">
+        <button class="nav-btn nav-prev" onclick="goPrev(2)">&larr; Back</button>
+        <span class="page-indicator">Page 2 of 6</span>
+        <button class="nav-btn nav-next" onclick="goNext(2)">Next &rarr;</button>
+      </div>
+      <div class="msg" id="msg2"></div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════ -->
+    <!-- PAGE 3: FACILITATORS                                -->
+    <!-- ═══════════════════════════════════════════════════ -->
+    <div class="page" id="page3">
+      <div class="section-card">
+        <div class="section-label">Section 3 of 6</div>
+        <div class="section-title">Facilitator Evaluations</div>
+        <p style="font-size:13px;color:#6c757d;margin-bottom:1rem">Click a facilitator tab to evaluate them. Use <strong style="color:#2D5016">+ Add facilitator</strong> to add more. Each facilitator is evaluated separately.</p>
+        <div class="fac-tabs" id="facTabs"></div>
+        <div id="facPanels"></div>
+      </div>
+      <div class="nav-bar">
+        <button class="nav-btn nav-prev" onclick="goPrev(3)">&larr; Back</button>
+        <span class="page-indicator">Page 3 of 6</span>
+        <button class="nav-btn nav-next" onclick="goNext(3)">Next &rarr;</button>
+      </div>
+      <div class="msg" id="msg3"></div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════ -->
+    <!-- PAGE 4: KNOWLEDGE & MATERIALS                       -->
+    <!-- ═══════════════════════════════════════════════════ -->
+    <div class="page" id="page4">
+      <div class="section-card">
+        <div class="section-label">Section 4 of 6</div>
+        <div class="section-title">Knowledge, Skills &amp; Materials</div>
+        <div class="scale-note">1 = Very Dissatisfied &nbsp;|&nbsp; 2 = Dissatisfied &nbsp;|&nbsp; 3 = Neutral &nbsp;|&nbsp; 4 = Satisfied &nbsp;|&nbsp; 5 = Very Satisfied</div>
+        <p style="font-size:13px;font-weight:600;color:#2D5016;margin:1rem 0 6px">Knowledge &amp; Skills Acquisition</p>
+        <div class="grid-wrap"><table class="grid-table" style="margin-bottom:1.5rem">
+          <thead><tr><th>Statement</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr></thead>
+          <tbody id="g-knowledge"></tbody>
+        </table></div>
+        <p style="font-size:13px;font-weight:600;color:#2D5016;margin:1rem 0 6px">Training Materials</p>
+        <div class="grid-wrap"><table class="grid-table">
+          <thead><tr><th>Statement</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr></thead>
+          <tbody id="g-materials"></tbody>
+        </table></div>
+      </div>
+      <div class="nav-bar">
+        <button class="nav-btn nav-prev" onclick="goPrev(4)">&larr; Back</button>
+        <span class="page-indicator">Page 4 of 6</span>
+        <button class="nav-btn nav-next" onclick="goNext(4)">Next &rarr;</button>
+      </div>
+      <div class="msg" id="msg4"></div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════ -->
+    <!-- PAGE 5: IMPACT & OPEN FEEDBACK                      -->
+    <!-- ═══════════════════════════════════════════════════ -->
+    <div class="page" id="page5">
+      <div class="section-card">
+        <div class="section-label">Section 5 of 6</div>
+        <div class="section-title">Impact &amp; Application</div>
+        <div class="scale-note">1 = Very Dissatisfied &nbsp;|&nbsp; 2 = Dissatisfied &nbsp;|&nbsp; 3 = Neutral &nbsp;|&nbsp; 4 = Satisfied &nbsp;|&nbsp; 5 = Very Satisfied</div>
+        <div class="grid-wrap"><table class="grid-table">
+          <thead><tr><th>Statement</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr></thead>
+          <tbody id="g-impact"></tbody>
+        </table></div>
+        <div class="field" style="margin-top:1.25rem">
+          <label>Are there topics or skills gaps you would like ATAF to address in future programmes?</label>
+          <textarea id="skillsGap" placeholder="Your response..."></textarea>
+        </div>
+      </div>
+      <div class="nav-bar">
+        <button class="nav-btn nav-prev" onclick="goPrev(5)">&larr; Back</button>
+        <span class="page-indicator">Page 5 of 6</span>
+        <button class="nav-btn nav-next" onclick="goNext(5)">Next &rarr;</button>
+      </div>
+      <div class="msg" id="msg5"></div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════ -->
+    <!-- PAGE 6: OPEN FEEDBACK & OVERALL                     -->
+    <!-- ═══════════════════════════════════════════════════ -->
+    <div class="page" id="page6">
+      <div class="section-card">
+        <div class="section-label">Section 6 of 6</div>
+        <div class="section-title">Feedback &amp; Overall Rating</div>
+        <div class="field">
+          <label>What did you find most valuable about this training? <span class="req">*</span></label>
+          <textarea id="openValuable" placeholder="Your response..."></textarea>
+        </div>
+        <div class="field">
+          <label>What aspects of the training need improvement? <span class="req">*</span></label>
+          <textarea id="openImprove" placeholder="Your response..."></textarea>
+        </div>
+        <div class="field">
+          <label>Any additional comments or suggestions for ATAF?</label>
+          <textarea id="openComments" placeholder="Your response..."></textarea>
+        </div>
+        <div class="field" style="margin-top:1.5rem;padding-top:1.25rem;border-top:2px solid #e8ede6">
+          <label>Overall, how would you rate this training? <span class="req">*</span></label>
+          <div class="overall-opts" id="overallRating" style="margin-top:8px">
+            <button class="radio-btn" onclick="pick(this,'overallRating')">Excellent</button>
+            <button class="radio-btn" onclick="pick(this,'overallRating')">Very Good</button>
+            <button class="radio-btn" onclick="pick(this,'overallRating')">Good</button>
+            <button class="radio-btn" onclick="pick(this,'overallRating')">Fair</button>
+            <button class="radio-btn" onclick="pick(this,'overallRating')">Poor</button>
+          </div>
+        </div>
+      </div>
+      <div class="nav-bar">
+        <button class="nav-btn nav-prev" onclick="goPrev(6)">&larr; Back</button>
+        <span class="page-indicator">Page 6 of 6</span>
+        <button class="nav-btn nav-submit" onclick="submitForm()">Submit Survey &#10003;</button>
+      </div>
+      <div class="msg" id="msg6"></div>
+    </div>
+
+  </div><!-- /formBody -->
+
+  <!-- THANK YOU -->
+  <div class="thankyou" id="thankYou">
+    <div class="check">&#10003;</div>
+    <h2>Thank you for your feedback!</h2>
+    <p>Your response has been recorded. ATAF values your input and will use it to continuously improve its training programmes.</p>
+  </div>
+
+</div><!-- /shell -->
+
+<script src="scorm_api.js"></script>
+<script>
+
+var SHEETS_URL = 'https://script.google.com/macros/s/AKfycby3PSg4APKppXyX4Fpzjj26J6FXMWgN2-xzSP14hMsAmbJ5K6AXcbwC7uBTAnuMDvFmtQ/exec';
+var TOTAL_PAGES = 6;
+var currentPage = 1;
+
+var grids = {
+  content: [
+    'The course content met my learning expectations',
+    'The training objectives were clearly communicated and relevant to my work',
+    'The course was well organised and logically structured',
+    'The duration of the course was appropriate for the content covered'
+  ],
+  delivery: [
+    'The delivery methods (lectures, discussions, case studies) were effective',
+    'The pace of delivery was appropriate for the level of the content',
+    'The sessions were interactive and encouraged active participation',
+    'The learning environment or platform was conducive to effective learning'
+  ],
+  knowledge: [
+    'I gained new knowledge that I did not have before this training',
+    'My understanding of the subject matter has meaningfully improved',
+    'I acquired practical skills I can apply directly in my work',
+    'This training has increased my confidence in performing related tasks'
+  ],
+  materials: [
+    'The training materials were relevant to the course content',
+    'The materials were clear and easy to understand',
+    'The materials will be a useful reference after the training'
+  ],
+  translation: [
+    'The quality of interpretation supported my understanding',
+    'The translated materials were accurate and readable'
+  ],
+  impact: [
+    'I will be able to apply the knowledge and skills gained in my work',
+    'This training is directly relevant to my current job responsibilities'
+  ]
+};
+
+var facQuestions = [
+  "Demonstrated strong knowledge of the subject matter",
+  "Explained complex concepts clearly and effectively",
+  "Responded adequately to participants' questions",
+  "Used relevant examples and practical activities",
+  "Encouraged participation and discussion",
+  "Was articulate and clear in the language of instruction"
+];
+
+var stepLabels = ['Training Info','Course','Facilitators','Knowledge','Impact','Feedback'];
+var facCount = 0;
+var MAX_FAC = 6;
+
+// ── BUILD PROGRESS STEPS ───────────────────────────────────────────────────
+function buildProgress() {
+  var container = document.getElementById('progressSteps');
+  for (var i = 1; i <= TOTAL_PAGES; i++) {
+    var s = document.createElement('div');
+    s.className = 'progress-step' + (i === 1 ? ' active' : '');
+    s.id = 'step' + i;
+    s.innerHTML = '<span class="step-num">' + i + '</span>' + stepLabels[i-1];
+    container.appendChild(s);
+  }
+  updateProgress(1);
+}
+
+function updateProgress(page) {
+  for (var i = 1; i <= TOTAL_PAGES; i++) {
+    var s = document.getElementById('step' + i);
+    s.className = 'progress-step';
+    if (i < page) s.classList.add('done');
+    else if (i === page) s.classList.add('active');
+  }
+  var pct = ((page - 1) / (TOTAL_PAGES - 1)) * 100;
+  document.getElementById('progressFill').style.width = pct + '%';
+}
+
+// ── BUILD GRIDS ────────────────────────────────────────────────────────────
+function buildGrid(tbodyId, rows, prefix) {
+  var tb = document.getElementById(tbodyId);
+  if (!tb) return;
+  rows.forEach(function(row, i) {
+    var tr = document.createElement('tr');
+    var html = '<td>' + row + '</td>';
+    for (var v = 1; v <= 5; v++) {
+      html += '<td><input type="radio" name="' + prefix + '_' + i + '" value="' + v + '"></td>';
+    }
+    tr.innerHTML = html;
+    tb.appendChild(tr);
+  });
+}
+
+// ── RADIO SELECTION ────────────────────────────────────────────────────────
+function pick(btn, groupId) {
+  document.querySelectorAll('#' + groupId + ' .radio-btn').forEach(function(b) {
+    b.classList.remove('active');
+  });
+  btn.classList.add('active');
+}
+
+function toggleTranslation(btn) {
+  var show = btn.textContent.trim() === 'Yes';
+  document.getElementById('translationSection').style.display = show ? 'block' : 'none';
+}
+
+// ── FACILITATORS ───────────────────────────────────────────────────────────
+function addFacilitator() {
+  if (facCount >= MAX_FAC) return;
+  facCount++;
+  var id = 'fac' + facCount;
+  var label = 'Facilitator ' + facCount;
+  var tabs = document.getElementById('facTabs');
+  var addBtn = document.getElementById('addFacBtn');
+
+  var tab = document.createElement('button');
+  tab.className = 'fac-tab';
+  tab.id = 'tab_' + id;
+  tab.setAttribute('data-id', id);
+  tab.innerHTML = label + '<button class="rm" onclick="removeFac(event,\'' + id + '\')">&#x2715;</button>';
+  tab.onclick = function(e) { if (e.target.classList.contains('rm')) return; switchFac(id); };
+  tabs.insertBefore(tab, addBtn);
+
+  var panel = document.createElement('div');
+  panel.className = 'fac-panel';
+  panel.id = 'panel_' + id;
+  panel.innerHTML =
+    '<div class="fac-name-row"><label>' + label + ' name</label>' +
+    '<input type="text" id="name_' + id + '" placeholder="Enter full name"></div>' +
+    '<div class="scale-note">1 = Very Dissatisfied &nbsp;|&nbsp; 2 = Dissatisfied &nbsp;|&nbsp; 3 = Neutral &nbsp;|&nbsp; 4 = Satisfied &nbsp;|&nbsp; 5 = Very Satisfied</div>' +
+    '<div class="grid-wrap"><table class="grid-table" style="margin-bottom:1rem">' +
+    '<thead><tr><th>Statement</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr></thead>' +
+    '<tbody id="grid_' + id + '"></tbody></table></div>' +
+    '<div class="field"><label>What did you appreciate most about this facilitator\'s approach?</label>' +
+    '<textarea id="like_' + id + '" placeholder="Your response..."></textarea></div>' +
+    '<div class="field"><label>What improvement would you suggest for this facilitator?</label>' +
+    '<textarea id="imp_' + id + '" placeholder="Your response..."></textarea></div>';
+
+  document.getElementById('facPanels').appendChild(panel);
+  buildGrid('grid_' + id, facQuestions, id);
+  switchFac(id);
+  if (facCount >= MAX_FAC) addBtn.style.display = 'none';
+}
+
+function switchFac(id) {
+  document.querySelectorAll('.fac-tab').forEach(function(t) { t.classList.remove('active'); });
+  document.querySelectorAll('.fac-panel').forEach(function(p) { p.classList.remove('active'); });
+  var t = document.getElementById('tab_' + id);
+  var p = document.getElementById('panel_' + id);
+  if (t) t.classList.add('active');
+  if (p) p.classList.add('active');
+}
+
+function removeFac(e, id) {
+  e.stopPropagation();
+  document.getElementById('tab_' + id).remove();
+  document.getElementById('panel_' + id).remove();
+  document.getElementById('addFacBtn').style.display = 'flex';
+  var remaining = document.querySelectorAll('.fac-tab[data-id]');
+  if (remaining.length > 0) switchFac(remaining[remaining.length-1].getAttribute('data-id'));
+}
+
+// ── NAVIGATION ─────────────────────────────────────────────────────────────
+var validations = {
+  1: function() {
+    if (!document.getElementById('country').value.trim()) return 'Please fill in Country / Revenue Administration.';
+    if (!document.getElementById('courseTitle').value.trim()) return 'Please fill in the Course Title.';
+    if (!getSelected('deliveryMode')) return 'Please select a Training Delivery Mode.';
+    if (!getSelected('translationQ')) return 'Please answer the translation/interpretation question.';
+    return null;
+  },
+  6: function() {
+    if (!document.getElementById('openValuable').value.trim()) return 'Please answer: What did you find most valuable?';
+    if (!document.getElementById('openImprove').value.trim()) return 'Please answer: What aspects need improvement?';
+    if (!getSelected('overallRating')) return 'Please select an Overall Rating.';
+    return null;
+  }
+};
+
+function goNext(fromPage) {
+  var err = validations[fromPage] ? validations[fromPage]() : null;
+  var msgEl = document.getElementById('msg' + fromPage);
+  if (err) {
+    msgEl.className = 'msg error';
+    msgEl.textContent = err;
+    return;
+  }
+  msgEl.textContent = '';
+  showPage(fromPage + 1);
+}
+
+function goPrev(fromPage) {
+  document.getElementById('msg' + fromPage).textContent = '';
+  showPage(fromPage - 1);
+}
+
+function showPage(n) {
+  document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
+  document.getElementById('page' + n).classList.add('active');
+  currentPage = n;
+  updateProgress(n);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ── DATA COLLECTION ────────────────────────────────────────────────────────
+function getSelected(groupId) {
+  var el = document.querySelector('#' + groupId + ' .active');
+  return el ? el.textContent.trim() : '';
+}
+
+function getGridValues(prefix, count) {
+  var vals = [];
+  for (var i = 0; i < count; i++) {
+    var sel = document.querySelector('input[name="' + prefix + '_' + i + '"]:checked');
+    vals.push(sel ? sel.value : '');
+  }
+  return vals;
+}
+
+function collectData() {
+  var data = {
+    timestamp: new Date().toISOString(),
+    country: document.getElementById('country').value.trim(),
+    courseTitle: document.getElementById('courseTitle').value.trim(),
+    deliveryMode: getSelected('deliveryMode'),
+    translationSupport: getSelected('translationQ'),
+    content: getGridValues('sec2', 4),
+    delivery: getGridValues('sec3', 4),
+    knowledge: getGridValues('sec5', 4),
+    materials: getGridValues('sec6', 3),
+    translation: getGridValues('sec7', 2),
+    impact: getGridValues('sec8', 2),
+    skillsGap: document.getElementById('skillsGap').value.trim(),
+    openValuable: document.getElementById('openValuable').value.trim(),
+    openImprove: document.getElementById('openImprove').value.trim(),
+    openComments: document.getElementById('openComments').value.trim(),
+    overallRating: getSelected('overallRating'),
+    facilitators: []
+  };
+  document.querySelectorAll('.fac-tab[data-id]').forEach(function(tab) {
+    var id = tab.getAttribute('data-id');
+    data.facilitators.push({
+      number: parseInt(id.replace('fac','')),
+      name: (document.getElementById('name_' + id)||{}).value||'',
+      ratings: getGridValues(id, 6),
+      liked: (document.getElementById('like_' + id)||{}).value||'',
+      improve: (document.getElementById('imp_' + id)||{}).value||''
+    });
+  });
+  return data;
+}
+
+// ── SUBMIT ─────────────────────────────────────────────────────────────────
+function submitForm() {
+  var err = validations[6]();
+  var msgEl = document.getElementById('msg6');
+  if (err) { msgEl.className = 'msg error'; msgEl.textContent = err; return; }
+  msgEl.className = 'msg'; msgEl.textContent = 'Submitting...';
+  document.querySelector('.nav-submit').disabled = true;
+
+  var data = collectData();
+
+  if (window.SCORM) {
+    try { SCORM.set('cmi.core.lesson_status','completed'); SCORM.set('cmi.core.score.raw','100'); SCORM.commit(); } catch(e){}
+  }
+
+  fetch(SHEETS_URL, {
+    method: 'POST', mode: 'no-cors',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify(data)
+  }).then(function(){ showThankYou(); }).catch(function(){ showThankYou(); });
+}
+
+function showThankYou() {
+  document.getElementById('formBody').style.display = 'none';
+  document.getElementById('thankYou').style.display = 'block';
+  window.scrollTo(0,0);
+}
+
+// ── INIT ───────────────────────────────────────────────────────────────────
+buildProgress();
+buildGrid('g-content', grids.content, 'sec2');
+buildGrid('g-delivery', grids.delivery, 'sec3');
+buildGrid('g-knowledge', grids.knowledge, 'sec5');
+buildGrid('g-materials', grids.materials, 'sec6');
+buildGrid('g-translation', grids.translation, 'sec7');
+buildGrid('g-impact', grids.impact, 'sec8');
+
+var addBtnEl = document.createElement('button');
+addBtnEl.className = 'add-fac-btn';
+addBtnEl.id = 'addFacBtn';
+addBtnEl.innerHTML = '+ Add facilitator';
+addBtnEl.onclick = addFacilitator;
+document.getElementById('facTabs').appendChild(addBtnEl);
+addFacilitator();
+
+</script>
+</body>
+</html>
